@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Page</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #form-container, #thankyou-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    #thankyou-container {
+      display: none;
+    }
+    img {
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="form-container">
+    <iframe 
+      src="YOUR_FORM_URL"
+      width="100%" 
+      height="600px" 
+      frameborder="0"
+      onload="checkFormSubmitted(this)">
+    </iframe>
+  </div>
+
+  <div id="thankyou-container">
+    <h2>Thank you for your submission!</h2>
+    <img src="THANK_YOU_IMAGE_URL" alt="Thank You">
+  </div>
+
+  <script>
+    function checkFormSubmitted(iframe) {
+      const interval = setInterval(() => {
+        try {
+          const formUrl = iframe.contentWindow.location.href;
+          if (formUrl.includes("formresponse")) {
+            clearInterval(interval);
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('thankyou-container').style.display = 'block';
+          }
+        } catch (e) {
+          // Cross-origin error expected
+        }
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
