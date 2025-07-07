@@ -3,13 +3,18 @@
 <head>
   <title>Form Page</title>
   <style>
-    body { font-family: Arial, sans-serif; }
-    #form-container, #thankyou-container {
+    body {
+      font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 50px;
+      padding-top: 50px;
     }
     #thankyou-container {
       display: none;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 600px;
     }
     img {
       max-width: 300px;
@@ -19,35 +24,34 @@
 <body>
 
   <div id="form-container">
-    <iframe 
-      src="https://forms.cloud.microsoft/r/81rVg9JRrb"
-      width="100%" 
-      height="600px" 
-      frameborder="0"
-      onload="checkFormSubmitted(this)">
-    </iframe>
+    <iframe
+      src="https://forms.office.com/Pages/ResponsePage.aspx?id=https://forms.cloud.microsoft/r/81rVg9JRrb"
+      id="formFrame"
+    ></iframe>
   </div>
 
   <div id="thankyou-container">
     <h2>Thank you for your submission!</h2>
-    <img src="https://i.imgur.com/Ktxq6E0.png" alt="Thank You">
+    <img src="https://yourimageurl.com/thankyou.jpg" alt="https://i.imgur.com/Ktxq6E0.png">
   </div>
 
   <script>
-    function checkFormSubmitted(iframe) {
+    // Set timer to show thank-you after 5 seconds
+    const formFrame = document.getElementById('formFrame');
+    formFrame.onload = function () {
       const interval = setInterval(() => {
         try {
-          const formUrl = iframe.contentWindow.location.href;
-          if (formUrl.includes("formresponse")) {
+          const currentUrl = formFrame.contentWindow.location.href;
+          if (currentUrl.includes("formresponse")) {
             clearInterval(interval);
             document.getElementById('form-container').style.display = 'none';
             document.getElementById('thankyou-container').style.display = 'block';
           }
-        } catch (e) {
-          // Cross-origin error expected
+        } catch (err) {
+          // silently ignore cross-origin errors
         }
       }, 1000);
-    }
+    };
   </script>
 
 </body>
